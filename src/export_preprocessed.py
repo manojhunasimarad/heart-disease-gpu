@@ -6,6 +6,7 @@ Run from repo root:
     python -m src.export_preprocessed
 """
 
+import os
 import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer
@@ -15,6 +16,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.model_selection import train_test_split
 
 DATA_PATH = "data/heart_disease_uci.csv"
+
 
 def main():
     df = pd.read_csv(DATA_PATH)
@@ -56,16 +58,25 @@ def main():
     X_train_t = X_train_t.astype(np.float32)
     X_test_t = X_test_t.astype(np.float32)
 
+    # Save as .npy (for Python-side experiments)
     np.save("data/X_train_cuda.npy", X_train_t)
     np.save("data/y_train_cuda.npy", y_train.to_numpy(dtype=np.float32))
     np.save("data/X_test_cuda.npy", X_test_t)
     np.save("data/y_test_cuda.npy", y_test.to_numpy(dtype=np.float32))
+
+    # Also save CSV for C++ / CUDA side
+    os.makedirs("data/cuda", exist_ok=True)
+    np.savetxt("data/cuda/X_train_cuda.csv", X_train_t, delimiter=",")
+    np.savetxt("data/cuda/y_train_cuda.csv", y_train.to_numpy(dtype=np.float32), delimiter=",")
 
     print("Saved:")
     print("  data/X_train_cuda.npy", X_train_t.shape)
     print("  data/y_train_cuda.npy", y_train.shape)
     print("  data/X_test_cuda.npy", X_test_t.shape)
     print("  data/y_test_cuda.npy", y_test.shape)
+    print("  data/cuda/X_train_cuda.csv")
+    print("  data/cuda/y_train_cuda.csv")
+
 
 if __name__ == "__main__":
     main()
