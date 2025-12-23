@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+env/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# CUDA
+*.cu.o
+*.ptx
+*.cubin
+
+# OS
+.DS_Store

@@ -1,0 +1,10 @@
+pandas==2.2.3
+scikit-learn==1.5.2
+matplotlib==3.9.2
+seaborn==0.13.2
+jupyterlab==4.2.5
+pytest==8.3.3
+pybind11==2.13.6
+numba==0.60.0
+plotly==5.24.1
+torch
